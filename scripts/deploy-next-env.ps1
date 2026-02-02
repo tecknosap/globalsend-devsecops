@@ -14,7 +14,7 @@ if ($currentBranch -ne "dev") {
 $changes = git status --porcelain
 if ($changes) {
     git add .
-    git commit -m "Deploying infra to dev"
+    git commit -m "Initail commit"
     Write-Host "✅ Dev changes committed."
 } else {
     Write-Host "⚠️ No changes to commit."
