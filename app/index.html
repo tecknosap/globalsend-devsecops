@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalSend - Send Money Worldwide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-globe-americas"></i>
+                <span>GlobalSend</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Send</a>
+                <a href="#">Receive</a>
+                <a href="#">Business</a>
+                <a href="#">Help</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="#" class="login">Log In</a>
+                <a href="#" class="signup">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Send Money Worldwide in Minutes</h1>
+            <p>Fast, secure, low-cost transfers to 130+ countries</p>
+
+            <!-- Transfer Calculator -->
+            <div class="calculator">
+                <h3><i class="fas fa-calculator"></i> Transfer Calculator</h3>
+
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label>You Send</label>
+                        <div class="input-box">
+                            <input type="number" id="send-amount" value="100" min="1">
+                            <select id="send-currency">
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="exchange-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+
+                    <div class="input-group">
+                        <label>They Receive</label>
+                        <div class="input-box">
+                            <input type="number" id="receive-amount" readonly>
+                            <select id="receive-currency">
+                                <option value="GBP">GBP</option>
+                                <option value="EUR">EUR</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rate-info">
+                    <p>Exchange Rate: <span id="exchange-rate">1 USD = 0.82 GBP</span></p>
+                    <p>Transfer Fee: <span class="fee" id="transfer-fee">$5.99</span></p>
+                    <p class="total-info">Total You Pay: <span id="total-cost">$105.99</span></p>
+                </div>
+
+                <button class="btn-send">
+                    <i class="fas fa-paper-plane"></i> Start Transfer
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="image-placeholder">
+                <i class="fas fa-money-bill-transfer"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2>Why Choose GlobalSend?</h2>
+
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Fast Transfers</h3>
+                <p>Money arrives in minutes, not days</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Secure</h3>
+                <p>Bank-level security</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <h3>Low Fees</h3>
+                <p>Competitive rates</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Easy App</h3>
+                <p>Send in few taps</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-globe-americas"></i>
+                <span>GlobalSend</span>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Careers</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy</a>
+            </div>
+
+            <div class="social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <p class="copyright">© 2023 GlobalSend Demo</p>
+    </footer>
+
+    <!-- Calculator Script #corrected --> 
+    <script>
+        const exchangeRates = {
+            'USD_GBP': 0.82,
+            'USD_EUR': 0.93,
+            'GBP_USD': 1.22,
+            'GBP_EUR': 1.14,
+            'EUR_USD': 1.08,
+            'EUR_GBP': 0.88
+        };
+
+        const transferFees = {
+            'USD': { fixed: 3.99, percentage: 0.02 },
+            'EUR': { fixed: 3.50, percentage: 0.02 },
+            'GBP': { fixed: 3.00, percentage: 0.02 }
+        };
+
+        const sendAmountInput = document.getElementById('send-amount');
+        const sendCurrencySelect = document.getElementById('send-currency');
+        const receiveAmountInput = document.getElementById('receive-amount');
+        const receiveCurrencySelect = document.getElementById('receive-currency');
+        const exchangeRateSpan = document.getElementById('exchange-rate');
+        const transferFeeSpan = document.getElementById('transfer-fee');
+        const totalCostSpan = document.getElementById('total-cost');
+
+        function formatCurrency(amount, currency) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currency,
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount);
+        }
+
+        function calculateTransfer() {
+            const sendAmount = parseFloat(sendAmountInput.value) || 0;
+            const sendCurrency = sendCurrencySelect.value;
+            const receiveCurrency = receiveCurrencySelect.value;
+
+            const rateKey = `${sendCurrency}_${receiveCurrency}`;
+            const exchangeRate = exchangeRates[rateKey] || 1;
+
+            const feeData = transferFees[sendCurrency];
+            const percentageFee = sendAmount * feeData.percentage;
+            const totalFee = percentageFee + feeData.fixed;
+
+            const totalCost = sendAmount + totalFee;
+            const receivedAmount = sendAmount * exchangeRate;
+
+            receiveAmountInput.value = receivedAmount.toFixed(2);
+            exchangeRateSpan.textContent = `1 ${sendCurrency} = ${exchangeRate.toFixed(2)} ${receiveCurrency}`;
+            transferFeeSpan.textContent = formatCurrency(totalFee, sendCurrency);
+            totalCostSpan.textContent = formatCurrency(totalCost, sendCurrency);
+        }
+
+        function initCalculator() {
+            calculateTransfer();
+            sendAmountInput.addEventListener('input', calculateTransfer);
+            sendCurrencySelect.addEventListener('change', calculateTransfer);
+            receiveCurrencySelect.addEventListener('change', calculateTransfer);
+            receiveCurrencySelect.value = 'GBP';
+            calculateTransfer();
+        }
+
+        document.addEventListener('DOMContentLoaded', initCalculator);
+    </script>
+
+</body>
+</html>
