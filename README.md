@@ -1,106 +1,89 @@
+```markdown
 # 🌐 GlobalSend DevOps Pipeline  
-**End-to-End Delivery System | Developer + Cloud Architect Perspective**
+**Automated Multi-Environment Deployment | Terraform, Azure App Service, GitHub Actions**
 
 ---
 
-## 🚀 About the Project
-
-**GlobalSend** is a modern, **automation-first DevOps pipeline** delivering a money transfer application from **local development → Azure environments**, emphasizing **security, reproducibility, and end-to-end ownership**.
+## 🚀 Overview
+GlobalSend is a money transfer web application deployed across multiple Azure environments using **Terraform** and **GitHub Actions**. The pipeline implements a **Blue-Green deployment strategy** for zero-downtime production releases.
 
 **Key Outcomes:**
-
 - Predictable, secure, and scalable multi-environment deployment  
-- Zero-downtime releases via **Blue-Green deployment**  
-- Developer-first automation with **PowerShell + GitHub Actions**  
+- Developer-first automation via **PowerShell + GitHub Actions**  
 - Terraform Infrastructure as Code for reproducible environments  
+- Zero-downtime releases with Blue-Green production deployment  
 
 ---
 
-## 🏆 Tech Stack & Skills
+## 🏗 Architecture
 
-| Domain | Tools & Practices |
-|--------|------------------|
-| Front-End | HTML5, CSS3, JavaScript, Responsive Design |
-| Cloud | Azure App Service, Storage Accounts, Resource Groups |
-| Infrastructure | Terraform, Storage Blob Deployment, Modules |
-| DevOps | GitHub Actions, Branch-based Workflows, OIDC Authentication |
-| Deployment Strategy | Blue-Green Deployment, Smoke Tests, Automated Promotion |
-| Security | Secretless OIDC, Least-Privilege Access Policies |
-| Developer Experience | PowerShell Automation, Local Validation, Predictable Pipelines |
-
----
-
-## 🧩 Architectural Vision
-
-### Architect Perspective  
-- Clear separation of concerns  
-- Environment parity (Dev → Staging → Prod)  
-- Secretless authentication via **OIDC**  
-- Reproducible infrastructure with **Terraform**  
-- Traceable, auditable delivery lifecycle  
-
-### Developer Perspective  
-- Fast local feedback loops  
-- Automated pre-deployment checks  
-- Simple commands triggering complex workflows  
-- Predictable, environment-aware CI/CD  
-
----
-
-## 🔗 End-to-End Flow
-
+**End-to-End Flow:**  
 **Developer → Automation → Cloud → User**  
-Local Dev → PowerShell Automation → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users
+Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users  
+
+### Architecture Diagram
+
+![GlobalSend Architecture](./assets/nsg.gif)
 
 ---
 
-## 🏗 System Components
+## ⚡ Key Components
 
-| Component | Role |
-|-----------|------|
-| **Local Automation** | Pre-deployment checks, branch promotion, validation |
-| **GitHub Control Plane** | Source code, IaC, branching, workflow triggers |
-| **GitHub Actions CI/CD** | Build, test, deploy; environment-aware automation |
-| **Azure OIDC Authentication** | Secretless, short-lived tokens; least-privilege access |
-| **Terraform IaC** | Provision Dev + Staging; reproducible environments |
-| **Azure Deployment** | Dev iteration → Staging validation → Blue-Green Production → User endpoint |
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| Frontend Application | HTML5, CSS3, JavaScript | Money transfer interface with live calculator |
+| Infrastructure | Terraform | Azure resource provisioning |
+| Hosting | Azure App Service | Web application hosting |
+| Storage | Azure Storage Account | ZIP package deployment |
+| CI/CD | GitHub Actions | Automated, environment-aware pipeline |
+| Deployment Strategy | Blue-Green | Zero-downtime production releases |
+| Automation | PowerShell | Local validation, branch promotion, deployment |
 
 ---
 
-## 📈 Architecture Diagram
+## 🔧 Multi-Environment Strategy
 
-```mermaid
-flowchart LR
-    A[Local Dev] --> B[PowerShell Automation]
-    B --> C[GitHub]
-    C --> D[GitHub Actions CI/CD]
-    D --> E[Terraform IaC]
-    E --> F[Azure Dev Environment]
-    F --> G[Azure Staging Environment]
-    G --> H[Azure Production - Blue/Green Deployment]
-    H --> I[End Users]
-💡 Key Highlights
-Automation-first mindset reduces friction and human error
+| Environment | Branch | Deployment Trigger |
+|------------|--------|------------------|
+| Development | dev | Push to dev branch |
+| Staging | staging | Merge dev → staging |
+| Production | main | Blue-Green deployment |
 
-Reproducible environments via Terraform
+**Pipeline Features:**
+- Branch-based environment detection  
+- OIDC authentication for dev  
+- Service Principal authentication for staging/prod  
+- Automated Terraform plan & apply  
+- Smoke tests and Blue-Green swap for production  
 
-Secure deployments with secretless OIDC authentication
+---
 
-Scalable, production-ready foundation supporting multi-environment growth
+## 🗂 Project Structure
 
-Zero-downtime production via Blue-Green deployment strategy
+```
 
-📁 Repository Structure
+/app                   → Frontend code (HTML, CSS, JS)
+/assets                → Images and icons
+/scripts               → PowerShell automation & deployment
+/terraform             → Infrastructure as Code & modules
+/.github/workflows     → CI/CD pipeline YAMLs
+README.md              → Project overview
 
-Folder	Purpose
-/app	Front-end HTML/CSS/JS
-/scripts	Local automation (PowerShell)
-/terraform	Infrastructure as Code & modules
-/.github/workflows	CI/CD pipelines
-/docs	Architecture diagrams, screenshots
-README.md	Project overview
-🛡 Network Security Visualization
+```
 
-📬 Contact
-Open to discussions on DevOps, cloud automation, CI/CD, and production-grade architecture.
-Reach out to collaborate on pipelines, Terraform patterns, or Azure deployments.
+---
+
+## 🛡 Security & Best Practices
+- **OIDC Authentication:** Passwordless Azure login for development  
+- **Service Principals:** Secure credentials for staging & production  
+- **Environment Isolation:** Separate Azure subscriptions per environment  
+- **Network Security:** Managed via Azure App Service built-in protections  
+
+---
+
+## 📬 Contact
+For questions about this DevOps pipeline or cloud architecture best practices, feel free to reach out.  
+
+**Last Updated:** February 2026 | GlobalSend Money Transfer Application
+```
+
