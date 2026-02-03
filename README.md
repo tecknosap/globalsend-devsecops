@@ -115,5 +115,10 @@ tecknosap/
 For questions about this DevOps pipeline or cloud architecture best practices, feel free to reach out.  
 
 **Last Updated:** February 2026 | GlobalSend Money Transfer Application
+
+
+## License
+📜 License Licensed under MIT License.
+
 ```
 
