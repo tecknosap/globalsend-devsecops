@@ -26,7 +26,8 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 
 ### Architecture Diagram
 
-![GlobalSend Architecture](./assets/nsg.gif)
+<!-- ![GlobalSend Architecture](./assets/nsg.gif) -->
+![Architecture Diagram](./assets/nsg.gif)
 
 
 
