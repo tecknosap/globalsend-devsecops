@@ -1,13 +1,6 @@
-```markdown
 # 🌐 GlobalSend DevOps Pipeline  
 **End-to-End Delivery System | Developer + Cloud Architect Perspective**
 
-![Status](https://img.shields.io/badge/status-active-brightgreen)
-![Terraform](https://img.shields.io/badge/terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
-![Azure](https://img.shields.io/badge/azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/github_actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
-
----
 
 ## 🚀 About the Project
 
@@ -55,11 +48,8 @@
 
 ## 🔗 End-to-End Flow
 
-> **Developer → Automation → Cloud → User**
-
-```
+> **Developer → Automation → Cloud → User**  
 Local Dev → PowerShell Automation → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users
-```
 
 ---
 
@@ -88,37 +78,27 @@ flowchart LR
     F --> G[Azure Staging Environment]
     G --> H[Azure Production - Blue/Green Deployment]
     H --> I[End Users]
-```
+💡 Key Highlights
+Automation-first mindset reduces friction and human error
 
----
+Reproducible environments via Terraform
 
-## 💡 Key Highlights
+Secure deployments with secretless OIDC authentication
 
-- **Automation-first mindset** reduces friction and human error  
-- **Reproducible environments** via Terraform  
-- **Secure deployments** with secretless OIDC authentication  
-- **Scalable, production-ready foundation** supporting multi-environment growth  
-- **Zero-downtime production** via Blue-Green deployment strategy  
+Scalable, production-ready foundation supporting multi-environment growth
 
----
+Zero-downtime production via Blue-Green deployment strategy
 
-## 📁 Repository Structure
+📁 Repository Structure
+Folder	Purpose
+/app	Front-end HTML/CSS/JS
+/scripts	Local automation (PowerShell)
+/terraform	Infrastructure as Code & modules
+/.github/workflows	CI/CD pipelines
+/docs	Architecture diagrams, screenshots
+README.md	Project overview
+🛡 Network Security Visualization
 
-| Folder | Purpose |
-|--------|---------|
-| `/app` | Front-end HTML/CSS/JS |
-| `/scripts` | Local automation (PowerShell) |
-| `/terraform` | Infrastructure as Code & modules |
-| `/.github/workflows` | CI/CD pipelines |
-| `/docs` | Architecture diagrams, screenshots |
-| `README.md` | Project overview |
-
----
-
-## 📬 Contact
-
-Open to discussions on **DevOps, cloud automation, CI/CD, and production-grade architecture**.  
-Reach out to collaborate on **pipelines, Terraform patterns, or Azure deployments**.
-```
-
----
+📬 Contact
+Open to discussions on DevOps, cloud automation, CI/CD, and production-grade architecture.
+Reach out to collaborate on pipelines, Terraform patterns, or Azure deployments.
