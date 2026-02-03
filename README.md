@@ -28,6 +28,33 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 
 ![GlobalSend Architecture](./assets/nsg.gif)
 
+
+
+tecknosap/
+├── app/                     # Frontend code for GlobalSend
+│   ├── index.html           # Main HTML page
+│   ├── styles.css           # Styling for the app
+│   └── assets/              # Images, icons, GIFs (e.g., nsg.gif)
+├── assets/                  # Shared project assets (images, architecture diagrams)
+│   └── nsg.gif              # Architecture diagram used in README
+├── scripts/                 # Local automation & deployment scripts
+│   ├── deploy.ps1           # Blue-Green deployment script
+│   └── validation.ps1       # Pre-deployment validation scripts
+├── terraform/               # Infrastructure as Code modules & root
+│   ├── main.tf              # Root Terraform configuration
+│   ├── variables.tf         # Environment variables
+│   ├── outputs.tf           # Outputs (web app URLs, etc.)
+│   └── modules/             # Terraform modules
+│       ├── storage-account/ # Storage account provisioning module
+│       └── app-service/     # App Service provisioning module
+├── .github/
+│   └── workflows/
+│       └── deploy.yml       # GitHub Actions CI/CD workflow
+├── .gitignore               # Git ignore rules
+├── LICENSE                  # Project license
+└── README.md                # Project overview & architecture
+
+
 ---
 
 ## ⚡ Key Components
@@ -61,6 +88,7 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 
 ---
 
+---
 ## 🗂 Project Structure
 
 ```
@@ -73,6 +101,8 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 README.md              → Project overview
 
 ```
+
+
 
 ---
 
