@@ -31,24 +31,24 @@
 
 ## 🧩 Architectural Vision
 
-> ### Architect Perspective  
-> - Clear separation of concerns  
-> - Environment parity (Dev → Staging → Prod)  
-> - Secretless authentication via **OIDC**  
-> - Reproducible infrastructure with **Terraform**  
-> - Traceable, auditable delivery lifecycle  
+### Architect Perspective  
+ - Clear separation of concerns  
+ - Environment parity (Dev → Staging → Prod)  
+ - Secretless authentication via **OIDC**  
+ - Reproducible infrastructure with **Terraform**  
+ - Traceable, auditable delivery lifecycle  
 
-> ### Developer Perspective  
-> - Fast local feedback loops  
-> - Automated pre-deployment checks  
-> - Simple commands triggering complex workflows  
-> - Predictable, environment-aware CI/CD  
+ ### Developer Perspective  
+ - Fast local feedback loops  
+ - Automated pre-deployment checks  
+ - Simple commands triggering complex workflows  
+ - Predictable, environment-aware CI/CD  
 
 ---
 
 ## 🔗 End-to-End Flow
 
-> **Developer → Automation → Cloud → User**  
+ **Developer → Automation → Cloud → User**  
 Local Dev → PowerShell Automation → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users
 
 ---
