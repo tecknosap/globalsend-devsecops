@@ -1,6 +1,7 @@
 # 🌐 GlobalSend DevOps Pipeline  
 **End-to-End Delivery System | Developer + Cloud Architect Perspective**
 
+---
 
 ## 🚀 About the Project
 
@@ -32,23 +33,23 @@
 ## 🧩 Architectural Vision
 
 ### Architect Perspective  
- - Clear separation of concerns  
- - Environment parity (Dev → Staging → Prod)  
- - Secretless authentication via **OIDC**  
- - Reproducible infrastructure with **Terraform**  
- - Traceable, auditable delivery lifecycle  
+- Clear separation of concerns  
+- Environment parity (Dev → Staging → Prod)  
+- Secretless authentication via **OIDC**  
+- Reproducible infrastructure with **Terraform**  
+- Traceable, auditable delivery lifecycle  
 
- ### Developer Perspective  
- - Fast local feedback loops  
- - Automated pre-deployment checks  
- - Simple commands triggering complex workflows  
- - Predictable, environment-aware CI/CD  
+### Developer Perspective  
+- Fast local feedback loops  
+- Automated pre-deployment checks  
+- Simple commands triggering complex workflows  
+- Predictable, environment-aware CI/CD  
 
 ---
 
 ## 🔗 End-to-End Flow
 
- **Developer → Automation → Cloud → User**  
+**Developer → Automation → Cloud → User**  
 Local Dev → PowerShell Automation → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users
 
 ---
@@ -78,6 +79,8 @@ flowchart LR
     F --> G[Azure Staging Environment]
     G --> H[Azure Production - Blue/Green Deployment]
     H --> I[End Users]
+💡 Key Highlights
+Automation-first mindset reduces friction and human error
 
 Reproducible environments via Terraform
 
@@ -88,6 +91,7 @@ Scalable, production-ready foundation supporting multi-environment growth
 Zero-downtime production via Blue-Green deployment strategy
 
 📁 Repository Structure
+
 Folder	Purpose
 /app	Front-end HTML/CSS/JS
 /scripts	Local automation (PowerShell)
