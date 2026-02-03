@@ -1,5 +1,6 @@
-name: Terraform Deploy
+# name: Terraform Deploy
 
+<<<<<<< HEAD
 on:
   push:
     branches:
@@ -7,83 +8,94 @@ on:
       - staging
       - dev
   workflow_dispatch:
+=======
+# on:
+#   push:
+#     branches: ##
+#       - main
+#       - staging
+#       - dev
+#   workflow_dispatch: 
+>>>>>>> dev
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
 
-jobs:
-  terraform-deploy:
-    name: Terraform Deploy
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'prod' || github.ref_name == 'staging' && 'staging' || 'dev' }}
+# jobs:
+#   terraform-deploy:
+#     name: Terraform Deploy
+#     runs-on: ubuntu-latest
+#     environment: ${{ github.ref_name == 'main' && 'prod' || github.ref_name == 'staging' && 'staging' || 'dev' }}
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Debug Environment
-        run: echo "Deploying to ${{ github.job }} in ${{ github.environment }} environment"
+#       - name: Debug Environment
+#         run: echo "Deploying to ${{ github.job }} in ${{ github.environment }} environment"
 
-      # Azure login for dev using OIDC
-      - name: Login to Azure (OIDC for dev)
-        if: github.ref_name == 'dev'
-        uses: azure/login@v1.6.1
-        with:
-          client-id: ${{ secrets.DEV_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.DEV_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}
+#       # Azure login for dev using OIDC
+#       - name: Login to Azure (OIDC for dev)
+#         if: github.ref_name == 'dev'
+#         uses: azure/login@v1.6.1
+#         with:
+#           client-id: ${{ secrets.DEV_AZURE_CLIENT_ID }}
+#           tenant-id: ${{ secrets.DEV_AZURE_TENANT_ID }}
+#           subscription-id: ${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Export ARM_* env vars (dev)
-        if: github.ref_name == 'dev'
-        run: |
-          echo "ARM_CLIENT_ID=${{ secrets.DEV_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.DEV_AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+#       - name: Export ARM_* env vars (dev)
+#         if: github.ref_name == 'dev'
+#         run: |
+#           echo "ARM_CLIENT_ID=${{ secrets.DEV_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+#           echo "ARM_TENANT_ID=${{ secrets.DEV_AZURE_TENANT_ID }}" >> $GITHUB_ENV
+#           echo "ARM_SUBSCRIPTION_ID=${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      # Azure login for staging using SP credentials
-      - name: Login to Azure (SP for staging)
-        if: github.ref_name == 'staging'
-        uses: azure/login@v1.6.1
-        with:
-          client-id: ${{ secrets.STAGING_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.STAGING_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
+#       # Azure login for staging using SP credentials
+#       - name: Login to Azure (SP for staging)
+#         if: github.ref_name == 'staging'
+#         uses: azure/login@v1.6.1
+#         with:
+#           client-id: ${{ secrets.STAGING_AZURE_CLIENT_ID }}
+#           tenant-id: ${{ secrets.STAGING_AZURE_TENANT_ID }}
+#           subscription-id: ${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Export ARM_* env vars (staging)
-        if: github.ref_name == 'staging'
-        run: |
-          echo "ARM_CLIENT_ID=${{ secrets.STAGING_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.STAGING_AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+#       - name: Export ARM_* env vars (staging)
+#         if: github.ref_name == 'staging'
+#         run: |
+#           echo "ARM_CLIENT_ID=${{ secrets.STAGING_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+#           echo "ARM_TENANT_ID=${{ secrets.STAGING_AZURE_TENANT_ID }}" >> $GITHUB_ENV
+#           echo "ARM_SUBSCRIPTION_ID=${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      # Azure login for prod using SP credentials
-      - name: Login to Azure (SP for prod)
-        if: github.ref_name == 'main'
-        uses: azure/login@v1.6.1
-        with:
-          client-id: ${{ secrets.PROD_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.PROD_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}
+#       # Azure login for prod using SP credentials
+#       - name: Login to Azure (SP for prod)
+#         if: github.ref_name == 'main'
+#         uses: azure/login@v1.6.1
+#         with:
+#           client-id: ${{ secrets.PROD_AZURE_CLIENT_ID }}
+#           tenant-id: ${{ secrets.PROD_AZURE_TENANT_ID }}
+#           subscription-id: ${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Export ARM_* env vars (prod)
-        if: github.ref_name == 'main'
-        run: |
-          echo "ARM_CLIENT_ID=${{ secrets.PROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.PROD_AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+#       - name: Export ARM_* env vars (prod)
+#         if: github.ref_name == 'main'
+#         run: |
+#           echo "ARM_CLIENT_ID=${{ secrets.PROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+#           echo "ARM_TENANT_ID=${{ secrets.PROD_AZURE_TENANT_ID }}" >> $GITHUB_ENV
+#           echo "ARM_SUBSCRIPTION_ID=${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+#       - name: Setup Terraform
+#         uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: ./terraform
+#       - name: Terraform Init
+#         run: terraform init
+#         working-directory: ./terraform
 
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan -var="environment=${{ github.ref_name }}"
-        working-directory: ./terraform
+#       - name: Terraform Plan
+#         run: terraform plan -out=tfplan -var="environment=${{ github.ref_name }}"
+#         working-directory: ./terraform
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
-        working-directory: ./terraform
+#       - name: Terraform Apply
+#         run: terraform apply -auto-approve tfplan
+#         working-directory: ./terraform
+
+

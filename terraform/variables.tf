@@ -10,11 +10,11 @@ variable "location" {
   default     = "centralus"
 }
 
-variable "subscription_id" {
-  description = "Azure subscription ID to deploy resources"
-  type        = string
-  default     = "45f251e8-d84d-4b8e-ac63-77eef4482127"
-}
+# variable "subscription_id" {
+#   description = "Azure subscription ID to deploy resources"
+#   type        = string
+#   # default     = "45f251e8-d84d-4b8e-ac63-77eef4482127"
+# }
 
 variable "environment" {
   description = "Deployment environment (dev or staging)"
