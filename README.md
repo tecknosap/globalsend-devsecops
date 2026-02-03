@@ -91,17 +91,14 @@ tecknosap/
 ---
 ## 🗂 Project Structure
 
-```
-
-/app                   → Frontend code (HTML, CSS, JS)
-/assets                → Images and icons
-/scripts               → PowerShell automation & deployment
-/terraform             → Infrastructure as Code & modules
-/.github/workflows     → CI/CD pipeline YAMLs
-README.md              → Project overview
-
-```
-
+| Folder | Purpose |
+|--------|---------|
+| /app | Frontend code (HTML, CSS, JS) |
+| /assets | Images and icons |
+| /scripts | PowerShell automation & deployment |
+| /terraform | Infrastructure as Code & modules |
+| /.github/workflows | CI/CD pipeline YAMLs |
+| README.md | Project overview |
 
 
 ---
