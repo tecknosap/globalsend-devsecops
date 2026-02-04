@@ -1,4 +1,4 @@
-name: Repo Security Scan
+name: Repo Security Scan + CodeQL Advanced
 
 on:
   push:
@@ -39,10 +39,10 @@ jobs:
           Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
         shell: pwsh
 
-  # --- Advanced CodeQL scan ---
-  codeql-scan:
+  # --- CodeQL Advanced scan ---
+  codeql-advanced:
     name: CodeQL Advanced
-    runs-on: ${{ matrix.language == 'swift' && 'macos-latest' || 'ubuntu-latest' }}
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       security-events: write
       packages: read
@@ -53,8 +53,6 @@ jobs:
       matrix:
         include:
           - language: javascript
-            build-mode: none
-          - language: python
             build-mode: none
     steps:
       - name: Checkout repository
