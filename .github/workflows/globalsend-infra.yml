@@ -2,11 +2,11 @@ name: Terraform Deploy
 
 on:
   push:
-    branches: 
+    branches:
       - main
       - staging
       - dev
-  workflow_dispatch: ##
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -72,14 +72,15 @@ jobs:
           echo "ARM_CLIENT_ID=${{ secrets.PROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_TENANT_ID=${{ secrets.PROD_AZURE_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
-       - name: Run TFSec Scan
-         run: tfsec ./terraform
 
-       - name: Install Checkov
-         run: pip install checkov
+      - name: Run TFSec Scan
+        run: tfsec ./terraform
 
-       - name: Run Checkov Scan
-         run: checkov -d ./terraform --soft-fail
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov Scan
+        run: checkov -d ./terraform --soft-fail
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
