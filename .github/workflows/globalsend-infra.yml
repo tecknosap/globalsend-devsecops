@@ -72,6 +72,9 @@ jobs:
           echo "ARM_CLIENT_ID=${{ secrets.PROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_TENANT_ID=${{ secrets.PROD_AZURE_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      - name: Install TFSec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
       - name: Run TFSec Scan
         run: tfsec ./terraform
