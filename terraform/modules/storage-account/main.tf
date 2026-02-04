@@ -6,9 +6,17 @@ resource "azurerm_storage_account" "global_sa" {
   name                     = var.storage_account_name
   resource_group_name      = var.resource_group_name
   location                 = var.location
-  account_replication_type = "LRS"       # Locally redundant storage
-  account_tier             = "Standard"  # Standard performance tier
-  min_tls_version = "TLS1_2"
+  account_replication_type = "LRS"
+  account_tier             = "Standard"
+  min_tls_version          = "TLS1_2"
+}
+
+# Enable soft-delete for blobs
+resource "azurerm_storage_account_blob_service" "blob_service" {
+  storage_account_id = azurerm_storage_account.global_sa.id
+  delete_retention_policy {
+    days = 7  # soft-delete retention in days
+  }
 }
 
 # ---------------------------
