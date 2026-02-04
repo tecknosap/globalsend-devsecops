@@ -15,14 +15,14 @@ resource "azurerm_storage_account" "global_sa" {
   shared_access_key_enabled        = true
   infrastructure_encryption_enabled = true
 
-  identity {
-    type = "SystemAssigned"
-  }
+  # identity {
+  #   type = "SystemAssigned"
+  # }
 
-  network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices"]
-  }
+  # network_rules {
+  #   default_action = "Deny"
+  #   bypass         = ["AzureServices"]
+  # }
 
   blob_properties {
     delete_retention_policy {
