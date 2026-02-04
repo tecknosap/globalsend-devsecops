@@ -1,0 +1,68 @@
+# /app is scanned with Semgrep + CodeQL
+# /scripts is scanned with PSScriptAnalyzer + TruffleHog
+# Both run automatically on push/PR to main
+# Single workflow file to manage SAST and secret scanning
+
+name: Repo Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  frontend-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Install Python for Semgrep
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # Install Semgrep
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      # Run Semgrep on /app
+      - name: Semgrep Security Scan
+        run: semgrep --config p/security --exclude node_modules --sarif --output semgrep.sarif ./app
+
+      # Upload Semgrep results to GitHub
+      - name: Upload Semgrep SARIF
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: semgrep.sarif
+
+      # CodeQL Analysis
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  powershell-scan:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # PSScriptAnalyzer
+      - name: Install PSScriptAnalyzer
+        run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        shell: pwsh
+      - name: Run PSScriptAnalyzer
+        run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
+        shell: pwsh
+
+      # Secrets scan with TruffleHog
+      - name: Install TruffleHog
+        run: pip install truffleHog
+      - name: Scan for secrets
+        run: trufflehog git file://$GITHUB_WORKSPACE
