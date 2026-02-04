@@ -8,6 +8,7 @@ resource "azurerm_storage_account" "global_sa" {
   location                 = var.location
   account_replication_type = "LRS"       # Locally redundant storage
   account_tier             = "Standard"  # Standard performance tier
+  min_tls_version = "TLS1_2"
 }
 
 # ---------------------------
