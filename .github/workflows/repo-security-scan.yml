@@ -19,16 +19,16 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Semgrep (legacy CLI)
-        run: pip install "semgrep<1.50.0"
+      - name: Install Semgrep
+        run: pip install semgrep
 
       - name: Semgrep Security Scan
         run: |
-          semgrep \
+          semgrep scan \
             --config "https://semgrep.dev/p/ci" \
             --exclude node_modules \
             --sarif --output semgrep.sarif \
-            --exit-zero \
+            --no-error \
             ./app
 
       - name: Upload Semgrep SARIF
