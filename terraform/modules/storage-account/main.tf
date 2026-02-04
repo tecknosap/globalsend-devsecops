@@ -42,7 +42,7 @@ resource "azurerm_storage_account" "global_sa" {
 # Creates a container inside the Storage Account to hold blobs.
 resource "azurerm_storage_container" "global_container" {
   name                   = var.storage_container_name
-  storage_account_name   = azurerm_storage_account.global_sa.name
+  storage_account_id = azurerm_storage_account.global_sa.id
   container_access_type  = "private"  # Public access for testing; consider 'private' for production
 }
 
