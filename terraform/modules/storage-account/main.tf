@@ -69,10 +69,3 @@ resource "azurerm_storage_blob" "global_container_blob" {
 }
 
 
-
-
-2021 x 38 3-4    common + missing ones full of 38
-2022 x 38
-2023 x 38
-2024 x 38
-
