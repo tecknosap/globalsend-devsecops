@@ -14,16 +14,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Install Python for Semgrep
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install Semgrep
-        run: pip install semgrep
+      - name: Install Semgrep (legacy CLI)
+        run: pip install "semgrep<1.50.0"
 
-      # Semgrep MUST be single-line or proper YAML block
       - name: Semgrep Security Scan
         run: |
           semgrep \
@@ -38,7 +36,6 @@ jobs:
         with:
           sarif_file: semgrep.sarif
 
-      # CodeQL
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
@@ -75,16 +72,13 @@ jobs:
         run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
         shell: pwsh
 
-      # Python for TruffleHog
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # Install modern TruffleHog (v3)
-      - name: Install TruffleHog
-        run: pip install trufflehog==3.63.0
+      - name: Install TruffleHog v2
+        run: pip install trufflehog==2.2.1
 
-      # Correct CLI for v3 (NO --directory flag)
       - name: Scan for Secrets
-        run: trufflehog filesystem $env:GITHUB_WORKSPACE
+        run: trufflehog --entropy=True $env:GITHUB_WORKSPACE
