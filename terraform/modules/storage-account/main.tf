@@ -9,15 +9,14 @@ resource "azurerm_storage_account" "global_sa" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
   min_tls_version          = "TLS1_2"
-}
 
-# Enable soft-delete for blobs
-resource "azurerm_storage_account_blob_service" "blob_service" {
-  storage_account_id = azurerm_storage_account.global_sa.id
-  delete_retention_policy {
-    days = 7  # soft-delete retention in days
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
   }
 }
+
 
 # ---------------------------
 # Storage Container
