@@ -12,7 +12,7 @@ resource "azurerm_storage_account" "global_sa" {
 
   #enable_https_traffic_only        = true
   public_network_access_enabled    = false
-  shared_access_key_enabled        = false
+  shared_access_key_enabled        = true
   infrastructure_encryption_enabled = true
 
   identity {
