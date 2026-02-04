@@ -10,8 +10,26 @@ resource "azurerm_storage_account" "global_sa" {
   account_tier             = "Standard"
   min_tls_version          = "TLS1_2"
 
+  #enable_https_traffic_only        = true
+  public_network_access_enabled    = false
+  shared_access_key_enabled        = false
+  infrastructure_encryption_enabled = true
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+  }
+
   blob_properties {
     delete_retention_policy {
+      days = 7
+    }
+
+    container_delete_retention_policy {
       days = 7
     }
   }
