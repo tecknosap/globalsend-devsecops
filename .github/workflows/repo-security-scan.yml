@@ -17,13 +17,13 @@ jobs:
           python-version: '3.x'
       - run: pip install semgrep
       - run: semgrep scan --config "https://semgrep.dev/p/ci" --exclude node_modules --sarif --output semgrep.sarif ./app
-      - uses: github/codeql-action/upload-sarif@v2
+      - uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
-      - uses: github/codeql-action/init@v2
+      - uses: github/codeql-action/init@v3
         with:
           languages: javascript
-      - uses: github/codeql-action/analyze@v2
+      - uses: github/codeql-action/analyze@v3
 
   powershell-scan:
     runs-on: windows-latest
@@ -34,4 +34,4 @@ jobs:
       - run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
         shell: pwsh
       - run: pip install truffleHog
-      - run: trufflehog git "$GITHUB_WORKSPACE"
+      - run: trufflehog filesystem --json "$GITHUB_WORKSPACE"
