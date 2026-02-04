@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '3.x'
       - run: pip install semgrep
-      - run: semgrep --config "https://semgrep.dev/p/ci" --exclude node_modules --sarif --output semgrep.sarif --exit-zero ./app
+      - run: semgrep scan --config "https://semgrep.dev/p/ci" --exclude node_modules --sarif --output semgrep.sarif ./app
       - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: semgrep.sarif
@@ -34,4 +34,4 @@ jobs:
       - run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
         shell: pwsh
       - run: pip install truffleHog
-      - run: trufflehog filesystem $GITHUB_WORKSPACE
+      - run: trufflehog git "$GITHUB_WORKSPACE"
