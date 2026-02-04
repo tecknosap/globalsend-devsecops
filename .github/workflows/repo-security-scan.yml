@@ -11,74 +11,27 @@ jobs:
   frontend-scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-
-      - name: Install Semgrep
-        run: pip install semgrep
-
-      - name: Semgrep Security Scan
-        run: |
-          semgrep scan \
-            --config "https://semgrep.dev/p/ci" \
-            --exclude node_modules \
-            --sarif --output semgrep.sarif \
-            --no-error \
-            ./app
-
-      - name: Upload Semgrep SARIF
-        uses: github/codeql-action/upload-sarif@v2
+      - run: pip install semgrep
+      - run: semgrep --config "https://semgrep.dev/p/ci" --exclude node_modules --sarif --output semgrep.sarif --exit-zero ./app
+      - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: semgrep.sarif
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+      - uses: github/codeql-action/init@v2
         with:
           languages: javascript
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install Dependencies
-        run: npm install
-        working-directory: ./app
-
-      - name: Build Project
-        run: npm run build --if-present
-        working-directory: ./app
-
-      - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-
+      - uses: github/codeql-action/analyze@v2
 
   powershell-scan:
     runs-on: windows-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Install PSScriptAnalyzer
-        run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+      - uses: actions/checkout@v3
+      - run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
         shell: pwsh
-
-      - name: Run PSScriptAnalyzer
-        run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
+      - run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
         shell: pwsh
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install TruffleHog v2
-        run: pip install trufflehog==2.2.1
-
-      - name: Scan for Secrets
-        run: trufflehog --entropy=True $env:GITHUB_WORKSPACE
+      - run: pip install truffleHog
+      - run: trufflehog filesystem $GITHUB_WORKSPACE
