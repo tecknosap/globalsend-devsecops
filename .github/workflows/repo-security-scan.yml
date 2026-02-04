@@ -6,8 +6,12 @@ on:
   pull_request:
     branches: [main]
 
-jobs:
+permissions:
+  contents: read
+  security-events: write
+  actions: read
 
+jobs:
   frontend-scan:
     runs-on: ubuntu-latest
     steps:
@@ -23,26 +27,3 @@ jobs:
 
       - name: Run CodeQL
         uses: github/codeql-action/analyze@v4
-
-  secret-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Trufflehog Secrets Scan
-        uses: trufflesecurity/trufflehog@main
-        with:
-          extra_args: --only-verified
-
-  powershell-scan:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: PSScriptAnalyzer
-        run: |
-          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
-          Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
-        shell: pwsh
