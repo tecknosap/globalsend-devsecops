@@ -6,24 +6,74 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: read
-  security-events: write
-  actions: read
-
 jobs:
+
+  # --- Semgrep frontend scan ---
   frontend-scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Semgrep Scan
         uses: returntocorp/semgrep-action@v1
+
+  # --- TruffleHog secrets scan ---
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Trufflehog Secrets Scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  # --- PowerShell scripts scan ---
+  powershell-scan:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: PSScriptAnalyzer
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+          Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
+        shell: pwsh
+
+  # --- Advanced CodeQL scan ---
+  codeql-scan:
+    name: CodeQL Advanced
+    runs-on: ${{ matrix.language == 'swift' && 'macos-latest' || 'ubuntu-latest' }}
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript
+            build-mode: none
+          - language: python
+            build-mode: none
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: javascript
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
 
-      - name: Run CodeQL
+      - name: Run manual build steps
+        if: matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          echo 'Replace with your build commands if using manual build mode'
+          exit 1
+
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{matrix.language}}"
