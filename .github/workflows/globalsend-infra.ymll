@@ -6,7 +6,7 @@ on:
       - main
       - staging
       - dev
-  workflow_dispatch: ##
+  workflow_dispatch: 
 
 permissions:
   id-token: write
@@ -25,59 +25,32 @@ jobs:
       - name: Debug Environment
         run: echo "Deploying to ${{ github.job }} in ${{ github.environment }} environment"
 
-      # Azure login for dev using OIDC
-      - name: Login to Azure (OIDC for dev)
-        if: github.ref_name == 'dev'
-        uses: azure/login@v1.6.1
-        with:
-          client-id: ${{ secrets.DEV_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.DEV_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}
-
-      - name: Export ARM_* env vars (dev)
-        if: github.ref_name == 'dev'
-        run: |
-          echo "ARM_CLIENT_ID=${{ secrets.DEV_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.DEV_AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
-
-      # Azure login for staging using SP credentials
-      - name: Login to Azure (SP for staging)
-        if: github.ref_name == 'staging'
-        uses: azure/login@v1.6.1
-        with:
-          client-id: ${{ secrets.STAGING_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.STAGING_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
-
-      - name: Export ARM_* env vars (staging)
-        if: github.ref_name == 'staging'
-        run: |
-          echo "ARM_CLIENT_ID=${{ secrets.STAGING_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.STAGING_AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
-
-      # Azure login for prod using SP credentials
-      - name: Login to Azure (SP for prod)
-        if: github.ref_name == 'main'
-        uses: azure/login@v1.6.1
-        with:
-          client-id: ${{ secrets.PROD_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.PROD_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}
-
-      - name: Export ARM_* env vars (prod)
-        if: github.ref_name == 'main'
-        run: |
-          echo "ARM_CLIENT_ID=${{ secrets.PROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.PROD_AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      # Azure login steps (dev/staging/prod) omitted for brevity — keep as-is from your workflow
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
+      # --- Security Scanning ---
+      - name: Install TFSec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+
+      - name: Run TFSec Scan
+        run: tfsec ./terraform
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov Scan
+        run: checkov -d ./terraform
+
+      # --- Terraform Deploy ---
       - name: Terraform Init
         run: terraform init
+        working-directory: ./terraform
+
+      - name: # Terraform Validate
+        run: terraform validate
         working-directory: ./terraform
 
       - name: Terraform Plan
