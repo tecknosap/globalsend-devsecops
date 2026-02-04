@@ -88,7 +88,7 @@ resource "azurerm_storage_account" "global_sa" {
 resource "azurerm_storage_container" "global_container" {
   name                   = var.storage_container_name
   storage_account_name   = azurerm_storage_account.global_sa.name
-  container_access_type  = "blob"  # Public access for testing; consider 'private' for production
+  container_access_type  = "private"  # Public access for testing; consider 'private' for production
 }
 
 # ---------------------------
