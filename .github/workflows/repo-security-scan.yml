@@ -8,30 +8,41 @@ on:
 
 jobs:
 
-  frontend-scan:
+  scan:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-      - run: pip install semgrep
-      - run: semgrep scan --config "https://semgrep.dev/p/ci" --exclude node_modules --sarif --output semgrep.sarif ./app
-      - uses: github/codeql-action/upload-sarif@v3
+
+      - if: matrix.os == 'ubuntu-latest'
+        run: |
+          python -m pip install --upgrade pip semgrep
+          semgrep scan --config "https://semgrep.dev/p/ci" --exclude node_modules --sarif --output semgrep.sarif ./app
+        shell: bash
+
+      - if: matrix.os == 'ubuntu-latest'
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
-      - uses: github/codeql-action/init@v3
+
+      - if: matrix.os == 'ubuntu-latest'
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript
-      - uses: github/codeql-action/analyze@v3
+      - if: matrix.os == 'ubuntu-latest'
+        uses: github/codeql-action/analyze@v3
 
-  powershell-scan:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+      - if: matrix.os == 'windows-latest'
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+          Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
         shell: pwsh
-      - run: Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
+
+      - if: matrix.os == 'windows-latest'
+        run: |
+          python -m pip install --upgrade pip truffleHog
+          trufflehog filesystem --json "$GITHUB_WORKSPACE"
         shell: pwsh
-      - run: pip install truffleHog
-      - run: trufflehog filesystem --json "$GITHUB_WORKSPACE"
