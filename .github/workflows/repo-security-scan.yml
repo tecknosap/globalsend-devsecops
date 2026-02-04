@@ -31,7 +31,7 @@ jobs:
 
       # Run Semgrep on /app
       - name: Semgrep Security Scan
-        run: semgrep --config p/security --exclude node_modules --sarif --output semgrep.sarif ./app
+        run: semgrep --config "secrets,security" --exclude node_modules --sarif --output semgrep.sarif ./app
 
       # Upload Semgrep results to GitHub
       - name: Upload Semgrep SARIF
