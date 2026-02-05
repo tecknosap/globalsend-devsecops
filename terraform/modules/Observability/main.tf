@@ -58,20 +58,20 @@ resource "azurerm_monitor_diagnostic_setting" "storage_blob" {
   target_resource_id         = var.target_storage_account_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.this.id
 
-  enabled_log {
-    category = "StorageRead"
+#   enabled_log {
+#     category = "StorageRead"
 
-  }
+#   }
 
-  enabled_log {
-    category = "StorageWrite"
+#   enabled_log {
+#     category = "StorageWrite"
 
-  }
+#   }
 
-enabled_log {
-    category = "StorageDelete"
+# enabled_log {
+#     category = "StorageDelete"
 
-  }
+#   }
 
   metric {
     category = "Transaction"

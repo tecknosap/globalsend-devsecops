@@ -33,6 +33,7 @@ module "storage-account" {
   resource_group_name = azurerm_resource_group.globalsend_main_rg.name
   location            = var.location
   storage_account_name = lower("${var.storage_account_name}${var.environment}${random_integer.suffix.result}")
+  depends_on = [ azurerm_resource_group.globalsend_main_rg ]
 }
 
 # ---------------------------
@@ -48,6 +49,7 @@ module "app-service" {
   app_service_plan_name = "${var.app_service_plan_name}-${var.environment}-${random_integer.suffix.result}"
   app_service_name      = "${var.app_service_name}-${var.environment}-${random_integer.suffix.result}"
   zip_blob_url          = module.storage-account.zip_blob_url
+  depends_on = [ module.storage-account ]
 }
 
 # ---------------------------
@@ -61,4 +63,5 @@ module "Observability" {
   location            = var.location
   target_app_service_id = module.app-service.app_service_id
   target_storage_account_id = module.storage-account.storage_account_id
+  depends_on = [ module.app-service,module.storage-account ]
 }
