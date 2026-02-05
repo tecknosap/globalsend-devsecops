@@ -65,5 +65,5 @@ module "Observability" {
   location            = var.location
   target_app_service_id = module.app-service.app_service_id
   target_storage_account_id = module.storage-account.storage_account_id
-  depends_on = [ module.app-service,module.storage-account ]
+  depends_on = [ module.storage-account ]
 }
