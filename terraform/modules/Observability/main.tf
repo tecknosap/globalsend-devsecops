@@ -74,7 +74,7 @@ enabled_log {
   }
 
   metric {
-    category = "AllMetrics"
+    category = "Transaction"
     enabled  = true
   }
 }
