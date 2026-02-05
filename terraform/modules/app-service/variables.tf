@@ -28,10 +28,8 @@ variable "zip_blob_url" {
   type        = string
 }
 
-variable "application_insights_connection_string" {
+variable "app_insights_connection_string" {
   type = string
 }
-variable "application_insights_instrumentation_key" {
-  type = string
-}
+
 
