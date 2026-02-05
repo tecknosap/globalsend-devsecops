@@ -9,7 +9,7 @@ resource "azurerm_log_analytics_workspace" "this" {
 # =====================================================
 # Configure Diagnostic Settings for the target resource for app service
 # =====================================================
-resource "azurerm_monitor_diagnostic_setting" "tnk-diagnostics" {
+resource "azurerm_monitor_diagnostic_setting" "app_service_diagnostics" {
   name                       = var.diagnostic_setting
   target_resource_id         = var.app_service_target_resource_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.this.id
@@ -27,7 +27,7 @@ resource "azurerm_monitor_diagnostic_setting" "tnk-diagnostics" {
 # =====================================================
 # Configure Diagnostic Settings for the target resource storage account
 # =====================================================
-resource "azurerm_monitor_diagnostic_setting" "tnk-diagnostics" {
+resource "azurerm_monitor_diagnostic_setting" "storage_blob_diagnostics" {
   name                       = var.diagnostic_setting
   target_resource_id         = var.storage_account_target_resource_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.this.id
