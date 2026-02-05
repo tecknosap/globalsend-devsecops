@@ -49,6 +49,7 @@ module "app-service" {
   app_service_plan_name = "${var.app_service_plan_name}-${var.environment}-${random_integer.suffix.result}"
   app_service_name      = "${var.app_service_name}-${var.environment}-${random_integer.suffix.result}"
   zip_blob_url          = module.storage-account.zip_blob_url
+  application_insights_connection_string = module.Observability.application_insights_connection_string
   depends_on = [ module.storage-account ]
 }
 

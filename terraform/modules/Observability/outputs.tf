@@ -9,3 +9,8 @@ output "application_insights_instrumentation_key" {
 output "application_insights_app_id" {
   value = azurerm_application_insights.this.app_id
 }
+
+
+output "application_insights_connection_string" {
+  value = azurerm_application_insights.this.connection_string
+}
