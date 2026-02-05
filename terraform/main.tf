@@ -49,3 +49,16 @@ module "app-service" {
   app_service_name      = "${var.app_service_name}-${var.environment}-${random_integer.suffix.result}"
   zip_blob_url          = module.storage-account.zip_blob_url
 }
+
+# ---------------------------
+# Observability Module
+# ---------------------------
+# Deploys monitoring for the App Service and Storage Account via a reusable module.
+# This includes Log Analytics Workspace, Application Insights, and diagnostic settings.
+module "Observability" {
+  source = "./modules/Observability"
+  resource_group_name = azurerm_resource_group.globalsend_main_rg.name
+  location            = var.location
+  target_app_service_id = module.app-service.app_service_id
+  target_storage_account_id = module.storage-account.storage_account_id
+}
