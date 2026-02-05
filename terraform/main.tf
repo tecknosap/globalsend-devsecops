@@ -45,6 +45,7 @@ module "app-service" {
   app_service_name      = "${var.app_service_name}-${var.environment}-${random_integer.suffix.result}"
   zip_blob_url       = module.storage-account.zip_blob_url
   app_insights_connection_string = module.app-insights.connection_string
+  app_insights_instrumentation_key = module.app-insights.instrumentation_key
   depends_on = [ azurerm_resource_group.globalsend_main_rg, module.storage-account, module.app-insights ]
   
 }

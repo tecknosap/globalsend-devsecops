@@ -31,5 +31,9 @@ variable "zip_blob_url" {
 variable "app_insights_connection_string" {
   type = string
 }
+variable "app_insights_instrumentation_key" {
+  type = string
+}
+
 
 
