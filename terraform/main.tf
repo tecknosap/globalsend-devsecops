@@ -36,6 +36,7 @@ module "storage-account" {
   depends_on = [ azurerm_resource_group.globalsend_main_rg ]
 }
 
+
 # ---------------------------
 # App Service Module
 # ---------------------------
@@ -51,7 +52,7 @@ module "app-service" {
   zip_blob_url          = module.storage-account.zip_blob_url
   application_insights_connection_string = module.Observability.application_insights_connection_string
   
-  depends_on = [ module.storage-account ]
+  depends_on = [ module.storage-account]
 
 }
 
@@ -66,5 +67,7 @@ module "Observability" {
   location            = var.location
   target_app_service_id = module.app-service.app_service_id
   target_storage_account_id = module.storage-account.storage_account_id
-  depends_on = [ module.storage-account ]
+depends_on = [ module.storage-account ]
 }
+
+
