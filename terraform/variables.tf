@@ -37,12 +37,6 @@ variable "storage_account_name" {
   default     = "globalsendzip"
 }
 
-variable "application_insights_app_id" {
-  description = "The Application Insights Application ID for the deployed instance."
-  type        = string
-  
-}
-
 
 # Optional: Azure subscription ID (commented out)
 # variable "subscription_id" {
