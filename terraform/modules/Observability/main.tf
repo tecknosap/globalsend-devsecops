@@ -9,17 +9,6 @@ resource "azurerm_log_analytics_workspace" "this" {
   retention_in_days   = var.retention_in_days
 }
 
-# ===============================
-# Application Insights
-# ===============================
-resource "azurerm_application_insights" "this" {
-  name                = var.application_insight_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  application_type    = "web"
-
-  workspace_id = azurerm_log_analytics_workspace.this.id
-}
 
 # ===============================
 # App Service Diagnostics

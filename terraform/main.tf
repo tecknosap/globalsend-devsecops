@@ -50,12 +50,11 @@ module "app-service" {
   app_service_plan_name = "${var.app_service_plan_name}-${var.environment}-${random_integer.suffix.result}"
   app_service_name      = "${var.app_service_name}-${var.environment}-${random_integer.suffix.result}"
   zip_blob_url          = module.storage-account.zip_blob_url
-  application_insights_connection_string = module.Observability.application_insights_connection_string
-  application_insights_instrumentation_key = module.Observability.application_insights_instrumentation_key
-  
-  depends_on = [ module.storage-account]
-
+  application_insights_connection_string =   module.app-insights.connection_string
+  application_insights_instrumentation_key = module.app-insights.instrumentation_key
+  depends_on = [ module.storage-account ]
 }
+
 
 # ---------------------------
 # Observability Module
@@ -68,7 +67,16 @@ module "Observability" {
   location            = var.location
   target_app_service_id = module.app-service.app_service_id
   target_storage_account_id = module.storage-account.storage_account_id
-depends_on = [ module.storage-account ]
+  depends_on = [ module.app-service,module.storage-account ]
+
 }
+
+module "app-insights" {
+  source              = "./modules/app-insights"
+  resource_group_name = azurerm_resource_group.globalsend_main_rg.name
+  location            = var.location
+  workspace_id        = module.Observability.log_analytics_workspace_id
+}
+
 
 

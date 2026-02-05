@@ -3,10 +3,7 @@ variable "log_analytics_workspace_name" {
   default = "globalsend-law"
 }
 
-variable "application_insight_name" {
-  type    = string
-  default = "globalsend-appinsights"
-}
+
 variable "app_service_diagnostics_name" {
   type    = string
   default = "globalsend-appservice-diagnostics"
