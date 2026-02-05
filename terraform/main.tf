@@ -36,6 +36,17 @@ module "storage-account" {
   depends_on = [ azurerm_resource_group.globalsend_main_rg ]
 }
 
+module "app-insights" {
+  source              = "./modules/app-insights"
+  application_insight_name = "${var.application_insight_name}-${var.environment}-${random_integer.suffix.result}"
+  resource_group_name = azurerm_resource_group.globalsend_main_rg.name
+  location            = var.location
+  workspace_id        = module.law.workspace_id
+  # depends_on = [ module.law ]
+
+  
+}
+
 
 module "app-service" {
   source              = "./modules/app-service"
@@ -46,7 +57,8 @@ module "app-service" {
   zip_blob_url       = module.storage-account.zip_blob_url
   app_insights_connection_string = module.app-insights.connection_string
   app_insights_instrumentation_key = module.app-insights.instrumentation_key
-  depends_on = [ azurerm_resource_group.globalsend_main_rg, module.storage-account, module.app-insights ]
+  depends_on = [ module.storage-account,module.app-insights ]
+  
   
 }
 
@@ -57,18 +69,10 @@ module "law" {
   log-analytics_workspace_name = "${var.log-analytics_workspace_name}-${var.environment}-${random_integer.suffix.result}"
   app_service_target_resource_id = module.app-service.app_service_id
   storage_account_target_resource_id = module.storage-account.storage_account_id
-  depends_on = [ module.app-service, module.storage-account ]  
+  # depends_on = [ module.app-service, module.storage-account ]  
 }
 
-module "app-insights" {
-  source              = "./modules/app-insights"
-  application_insight_name = "${var.application_insight_name}-${var.environment}-${random_integer.suffix.result}"
-  resource_group_name = azurerm_resource_group.globalsend_main_rg.name
-  location            = var.location
-  workspace_id        = module.law.workspace_id
-  depends_on = [ azurerm_resource_group.globalsend_main_rg, module.law ]
-  
-}
+
 
 
 
