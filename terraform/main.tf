@@ -51,15 +51,18 @@ module "app-service" {
 }
 
 module "law" {
-  source              = "./modules/log-analytics"
+  source              = "./modules/law"
   resource_group_name = azurerm_resource_group.globalsend_main_rg.name
   location            = var.location
-  depends_on = [ azurerm_resource_group.globalsend_main_rg ]
-  
+  log-analytics_workspace_name = "${var.log-analytics_workspace_name}-${var.environment}-${random_integer.suffix.result}"
+  app_service_target_resource_id = module.app-service.app_service_id
+  storage_account_target_resource_id = module.storage-account.storage_account_id
+  depends_on = [ module.app-service, module.storage-account ]  
 }
 
 module "app-insights" {
   source              = "./modules/app-insights"
+  application_insight_name = "${var.application_insight_name}-${var.environment}-${random_integer.suffix.result}"
   resource_group_name = azurerm_resource_group.globalsend_main_rg.name
   location            = var.location
   workspace_id        = module.law.workspace_id
@@ -67,26 +70,5 @@ module "app-insights" {
   
 }
 
-# # ---------------------------
-# # Observability Module
-# # ---------------------------
-# # Deploys monitoring for the App Service and Storage Account via a reusable module.
-# # This includes Log Analytics Workspace, Application Insights, and diagnostic settings.
-# module "Observability" {
-#   source = "./modules/Observability"
-#   resource_group_name = azurerm_resource_group.globalsend_main_rg.name
-#   location            = var.location
-#   target_app_service_id = module.app-service.app_service_id
-#   target_storage_account_id = module.storage-account.storage_account_id
-#   depends_on = [ module.app-service,module.storage-account ]
-
-# }
-
-# module "app-insights" {
-#   source              = "./modules/app-insights"
-#   resource_group_name = azurerm_resource_group.globalsend_main_rg.name
-#   location            = var.location
-#   workspace_id        = module.Observability.log_analytics_workspace_id
-# }
 
 

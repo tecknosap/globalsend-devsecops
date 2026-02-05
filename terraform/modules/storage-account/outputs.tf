@@ -2,3 +2,7 @@
 output "zip_blob_url" {
   value = azurerm_storage_blob.global_container_blob.url
 }
+output "storage_account_id" {
+  value = azurerm_storage_account.global_sa.id
+  
+}

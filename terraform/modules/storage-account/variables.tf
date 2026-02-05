@@ -30,3 +30,5 @@ variable "storage_blob_name" {
   type        = string
   default     = "site.zip"
 }
+
+

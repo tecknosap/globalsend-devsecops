@@ -14,6 +14,6 @@ variable "workspace_id" {
 variable "application_insight_name" {
   type = string
   description = "Name of the Application Insights resource"
-  default = "globalsend-application-insights"
+  # default = "globalsend-application-insights"
   
 }
