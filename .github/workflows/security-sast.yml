@@ -20,7 +20,7 @@ jobs:
           pip install semgrep==1.83.0
           semgrep --version
 
-      - name: Run Semgrep
+      - name: Run Semgrep scan
         run: semgrep --config=p/default --sarif --output=semgrep.sarif -a
         continue-on-error: false
 
