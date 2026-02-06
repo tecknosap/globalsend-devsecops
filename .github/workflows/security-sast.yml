@@ -1,0 +1,27 @@
+name: SAST Scan
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Semgrep
+        uses: returntocorp/semgrep-action@v1
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript
+
+      - name: CodeQL Analyze
+        uses: github/codeql-action/analyze@v4
