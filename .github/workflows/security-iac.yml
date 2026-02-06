@@ -1,0 +1,26 @@
+name: IaC Security Scan
+
+on:
+  push:
+    branches: [main, dev, staging]
+  pull_request:
+    branches: [main, dev, staging]
+  workflow_dispatch:
+
+jobs:
+  iac:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run TFSec Scan
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          working_directory: ./terraform   # path to your Terraform code
+          soft_fail: false                 # fail workflow if issues found
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov Scan
+        run: checkov -d ./terraform --severity-threshold HIGH
