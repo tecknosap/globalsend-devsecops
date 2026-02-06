@@ -8,35 +8,23 @@ on:
   workflow_dispatch:
 
 jobs:
+
   # --- Semgrep frontend scan ---
   frontend-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install latest Semgrep
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install semgrep==1.83.0
-          semgrep --version
-
-      - name: Run Semgrep scan
-        run: semgrep --config=p/default --sarif --output=semgrep.sarif -a
-        continue-on-error: false
-
-      - name: Upload Semgrep SARIF
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: semgrep.sarif
+      - uses: actions/checkout@v3
+      - name: Semgrep Scan
+        uses: returntocorp/semgrep-action@v1
 
   # --- TruffleHog secrets scan ---
   secret-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: TruffleHog Secrets Scan
+      - name: Trufflehog Secrets Scan
         uses: trufflesecurity/trufflehog@main
         with:
           extra_args: --only-verified
@@ -45,7 +33,7 @@ jobs:
   powershell-scan:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - name: PSScriptAnalyzer
         run: |
           Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
@@ -55,7 +43,7 @@ jobs:
   # --- CodeQL Advanced scan ---
   codeql-advanced:
     name: CodeQL Advanced
-    runs-on: ubuntu-latest
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       security-events: write
       packages: read
