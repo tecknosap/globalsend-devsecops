@@ -20,10 +20,14 @@ jobs:
       # -------- Semgrep --------
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
+        with:
+          version: "v1.83.0"   # latest stable, upgrade as needed
         env:
           SEMGREP_RULES: p/default
           SEMGREP_FORMAT: sarif
           SEMGREP_OUTPUT: semgrep.sarif
+          SEMGREP_GIT_ONLY: "false"   # scan all files, not just git-tracked
+        continue-on-error: false        # set to true if you want CI to pass despite findings
 
       - name: Upload Semgrep results
         uses: github/codeql-action/upload-sarif@v4
