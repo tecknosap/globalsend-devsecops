@@ -1,27 +1,40 @@
 name: SAST Scan
-###
+
 on:
-  pull_request:
   push:
-    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   sast:
     runs-on: ubuntu-latest
+
     permissions:
       security-events: write
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Semgrep
+      # -------- Semgrep --------
+      - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
+        env:
+          SEMGREP_RULES: p/default
+          SEMGREP_FORMAT: sarif
+          SEMGREP_OUTPUT: semgrep.sarif
 
+      - name: Upload Semgrep results
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: semgrep.sarif
+
+      # -------- CodeQL --------
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
           languages: javascript
 
-      - name: CodeQL Analyze
+      - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v4
