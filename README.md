@@ -90,16 +90,14 @@ Security is applied **before any deployment**.
 
 ## 🗂 Project Structure
 
----
-
-/app # Frontend code (HTML, CSS, JS)
-/assets # Images and icons
-/scripts # PowerShell automation & deployment
-/terraform # Infrastructure as Code & modules
-/.github/workflows # CI/CD pipeline YAMLs (security + deployment)
-/security # SAST, SCA, secrets, IaC configs
-/docs # Architecture diagrams, reports, documentation
-README.md # Project overview
+| Folder | Purpose |
+|--------|---------|
+| /app | Frontend code (HTML, CSS, JS) |
+| /assets | Images and icons |
+| /scripts | PowerShell automation & deployment |
+| /terraform | Infrastructure as Code & modules |
+| /.github/workflows | CI/CD pipeline YAMLs |
+| README.md | Project overview |
 
 ---
 
