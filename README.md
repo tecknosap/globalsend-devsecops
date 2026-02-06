@@ -1,97 +1,126 @@
-# 🌐 GlobalSend DevOps Pipeline  
-**Automated Multi-Environment Deployment | Terraform, Azure App Service, GitHub Actions**
+# 🔐 GlobalSend DevSecOps Pipeline
+
+**Extends Project 1 — Security-Enforced CI/CD | Terraform, Azure, GitHub Actions**
+
+## 📘 Introduction
+
+Project 2 builds directly on **Project 1: GlobalSend DevOps Pipeline**, extending the multi-environment delivery workflow with **full DevSecOps enforcement**.
+
+Where Project 1 focused on automation, consistency, and zero-downtime deployments, Project 2 adds **security gates, compliance checks, and policy validation** that run automatically on every pull request.
+
+**Goal:** Only secure, compliant, and policy-approved code is allowed to deploy.
 
 ---
 
 ## 🚀 Overview
-GlobalSend is a money transfer web application deployed across multiple Azure environments using **Terraform** and **GitHub Actions**. The pipeline implements a **Blue-Green deployment strategy** for zero-downtime production releases.
+This security-first CI/CD pipeline validates code, dependencies, secrets, and infrastructure before deployment. All checks must pass before merging, ensuring a secure and reliable delivery process.
 
 **Key Outcomes:**
-- Predictable, secure, and scalable multi-environment deployment  
-- Developer-first automation via **PowerShell + GitHub Actions**  
-- Terraform Infrastructure as Code for reproducible environments  
-- Zero-downtime releases with Blue-Green production deployment  
+
+- Enforced SAST, SCA, secrets, and IaC scanning  
+- Predictable, reproducible multi-environment deployments via Terraform  
+- Zero-downtime production releases with Blue-Green deployment  
+- Passwordless authentication via GitHub OIDC → Azure  
+- Branch protections and required checks for full DevSecOps enforcement  
 
 ---
 
+## 🛡 Security Architecture
+Security is applied **before any deployment**.
+
+### Security Gates (Pull Request Stage)
+
+| Category            | Tools                     | Purpose                          |
+|---------------------|---------------------------|----------------------------------|
+| SAST                | CodeQL, Semgrep           | Block insecure code patterns     |
+| SCA                 | Trivy, Dependabot         | Detect vulnerable dependencies   |
+| Secrets             | GitLeaks                  | Prevent credential leakage       |
+| IaC Security        | Checkov, TFSec            | Enforce Terraform compliance     |
+| Policy Enforcement  | Azure Policy (optional)   | Runtime governance               |
+
+> **No merge unless all scans pass.**
+
+---
 
 ## 🏗 Architecture
 
 **End-to-End Flow:**  
-
-Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users  
-
----
+`Local Dev → PowerShell → GitHub → GitHub Actions → Security Gates → OIDC → Terraform → Dev → Staging → Blue-Green → Azure → Users`
 
 ### Architecture Diagram
-
-
-### Architecture Diagram
-![Architecture Diagram](./assets/globalsend.gif)
+![Architecture Diagram](./assets/dsops.gif)
 
 ---
 
 ## ⚡ Key Components
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Frontend Application | HTML5, CSS3, JavaScript | Money transfer interface with live calculator |
-| Infrastructure | Terraform | Azure resource provisioning |
-| Hosting | Azure App Service | Web application hosting |
-| Storage | Azure Storage Account | ZIP package deployment |
-| CI/CD | GitHub Actions | Automated, environment-aware pipeline |
-| Deployment Strategy | Blue-Green | Zero-downtime production releases |
-| Automation | PowerShell | Local validation, branch promotion, deployment |
-
----
+| Component           | Technology / Service                | Purpose                                           |
+|--------------------|-------------------------------------|---------------------------------------------------|
+| Frontend App       | HTML5, CSS3, JS                     | Money transfer UI with live calculator            |
+| Infrastructure     | Terraform                           | Azure resource provisioning                       |
+| Hosting            | Azure App Service                   | Web application hosting                           |
+| Storage            | Azure Storage Account               | ZIP package deployment + Terraform backend        |
+| CI/CD              | GitHub Actions                      | Automated, security-gated pipeline                |
+| Authentication     | GitHub OIDC, Service Principals     | Passwordless dev auth, secure staging/prod auth   |
+| Deployment Strategy| Blue-Green                          | Zero-downtime production releases                 |
+| Automation         | PowerShell                          | Validation, branch promotion, deployment          |
+| Security Scanning  | CodeQL, Semgrep, Trivy, Dependabot, GitLeaks, Checkov, TFSec, Azure Policy | SAST, SCA, secrets, IaC compliance, policy enforcement |
+| Observability (Optional) | Azure Monitor, App Insights   | Metrics, logs, performance insights               |
 
 ---
 
 ## 🔧 Multi-Environment Strategy
 
-| Environment | Branch | Deployment Trigger |
-|------------|--------|------------------|
-| Development | dev | Push to dev branch |
-| Staging | staging | Merge dev → staging |
-| Production | main | Blue-Green deployment |
+| Environment | Branch     | Deployment Trigger          |
+|-------------|------------|-----------------------------|
+| Development | `dev`      | Push to dev branch          |
+| Staging     | `staging`  | Merge dev → staging         |
+| Production  | `main`     | Blue-Green deployment       |
 
 **Pipeline Features:**
+
 - Branch-based environment detection  
-- OIDC authentication for dev  
-- Service Principal authentication for staging/prod  
+- OIDC authentication for development  
+- Service Principal authentication for staging & production  
 - Automated Terraform plan & apply  
-- Smoke tests and Blue-Green swap for production  
+- Smoke tests + Blue-Green swap for production  
+- Full DevSecOps security gates on every PR  
 
 ---
 
----
 ## 🗂 Project Structure
 
-| Folder | Purpose |
-|--------|---------|
-| /app | Frontend code (HTML, CSS, JS) |
-| /assets | Images and icons |
-| /scripts | PowerShell automation & deployment |
-| /terraform | Infrastructure as Code & modules |
-| /.github/workflows | CI/CD pipeline YAMLs |
-| README.md | Project overview |
+---
 
+/app # Frontend code (HTML, CSS, JS)
+/assets # Images and icons
+/scripts # PowerShell automation & deployment
+/terraform # Infrastructure as Code & modules
+/.github/workflows # CI/CD pipeline YAMLs (security + deployment)
+/security # SAST, SCA, secrets, IaC configs
+/docs # Architecture diagrams, reports, documentation
+README.md # Project overview
 
 ---
 
 ## 🛡 Security & Best Practices
+
 - **OIDC Authentication:** Passwordless Azure login for development  
 - **Service Principals:** Secure credentials for staging & production  
 - **Environment Isolation:** Separate Azure subscriptions per environment  
-- **Network Security:** Managed via Azure App Service built-in protections  
+- **IaC Security:** Checkov + TFSec scanning on every PR  
+- **Branch Protections:** Required checks enforce DevSecOps  
+- **Zero Static Credentials:** No secrets stored in GitHub  
+- **Blue-Green:** Safe, reversible production deployments  
 
 ---
 
 ## 📬 Contact
-For questions about this DevOps pipeline or cloud architecture best practices, feel free to reach out.  
+For questions about this DevSecOps pipeline or cloud architecture best practices, reach out anytime.
 
-**Last Updated:** February 2026 | GlobalSend Money Transfer Application
+*Last Updated: February 2026 | GlobalSend Money Transfer Application*
 
+---
 
-## License
-📜 License Licensed under MIT License.
+## 📜 License
+MIT License
