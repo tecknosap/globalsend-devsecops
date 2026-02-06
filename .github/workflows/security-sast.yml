@@ -17,17 +17,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # -------- Semgrep --------
+      # -------- Semgrep v2 --------
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
+        uses: returntocorp/semgrep-action@v2
         with:
-          version: "v1.83.0"   # latest stable, upgrade as needed
+          version: "v1.83.0"   # specify latest supported version
         env:
           SEMGREP_RULES: p/default
           SEMGREP_FORMAT: sarif
           SEMGREP_OUTPUT: semgrep.sarif
-          SEMGREP_GIT_ONLY: "false"   # scan all files, not just git-tracked
-        continue-on-error: false        # set to true if you want CI to pass despite findings
+          SEMGREP_GIT_ONLY: "false"
+        continue-on-error: false
 
       - name: Upload Semgrep results
         uses: github/codeql-action/upload-sarif@v4
