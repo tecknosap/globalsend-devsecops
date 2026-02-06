@@ -1,45 +1,90 @@
-name: SAST Scan
+name: Repo Security Scan + CodeQL Advanced
 
 on:
   push:
+    branches: [main, dev, staging]
   pull_request:
+    branches: [main, dev, staging]
   workflow_dispatch:
 
 jobs:
-  sast:
+  # --- Semgrep frontend scan ---
+  frontend-scan:
     runs-on: ubuntu-latest
-
-    permissions:
-      security-events: write
-      contents: read
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # -------- Install latest Semgrep --------
-      - name: Install Semgrep
+      - name: Install latest Semgrep
         run: |
           python3 -m pip install --upgrade pip
-          pip install semgrep==1.83.0   # latest supported
+          pip install semgrep==1.83.0
           semgrep --version
 
-      # -------- Run Semgrep --------
       - name: Run Semgrep
-        run: semgrep --config=p/default --sarif --output=semgrep.sarif --all-targets
+        run: semgrep --config=p/default --sarif --output=semgrep.sarif -a
         continue-on-error: false
 
-      # -------- Upload Semgrep SARIF --------
-      - name: Upload Semgrep results
+      - name: Upload Semgrep SARIF
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep.sarif
 
-      # -------- CodeQL --------
+  # --- TruffleHog secrets scan ---
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: TruffleHog Secrets Scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  # --- PowerShell scripts scan ---
+  powershell-scan:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PSScriptAnalyzer
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+          Invoke-ScriptAnalyzer -Path ./scripts -Recurse -Severity Warning
+        shell: pwsh
+
+  # --- CodeQL Advanced scan ---
+  codeql-advanced:
+    name: CodeQL Advanced
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript
+            build-mode: none
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: javascript
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
 
-      - name: Run CodeQL Analysis
+      - name: Run manual build steps
+        if: matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          echo 'Replace with your build commands if using manual build mode'
+          exit 1
+
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{matrix.language}}"
