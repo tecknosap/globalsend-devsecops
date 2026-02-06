@@ -1,12 +1,9 @@
 # 🔐 GlobalSend DevSecOps Pipeline
 
-**Extends Project 1 — Security-Enforced CI/CD | Terraform, Azure, GitHub Actions**
-
-## 📘 Introduction
 
 Project 2 builds directly on **Project 1: GlobalSend DevOps Pipeline**, extending the multi-environment delivery workflow with **full DevSecOps enforcement**.
 
-Where Project 1 focused on automation, consistency, and zero-downtime deployments, Project 2 adds **security gates, compliance checks, and policy validation** that run automatically on every pull request.
+Where Project 1 focused on automation, consistency, and zero-downtime deployments, Project 2 adds **security gates, and compliance checks** that run automatically on every pull request.
 
 **Goal:** Only secure, compliant, and policy-approved code is allowed to deploy.
 
@@ -36,7 +33,7 @@ Security is applied **before any deployment**.
 | SCA                 | Trivy, Dependabot         | Detect vulnerable dependencies   |
 | Secrets             | GitLeaks                  | Prevent credential leakage       |
 | IaC Security        | Checkov, TFSec            | Enforce Terraform compliance     |
-| Policy Enforcement  | Azure Policy (optional)   | Runtime governance               |
+
 
 > **No merge unless all scans pass.**
 
@@ -65,7 +62,7 @@ Security is applied **before any deployment**.
 | Deployment Strategy| Blue-Green                          | Zero-downtime production releases                 |
 | Automation         | PowerShell                          | Validation, branch promotion, deployment          |
 | Security Scanning  | CodeQL, Semgrep, Trivy, Dependabot, GitLeaks, Checkov, TFSec, Azure Policy | SAST, SCA, secrets, IaC compliance, policy enforcement |
-| Observability (Optional) | Azure Monitor, App Insights   | Metrics, logs, performance insights               |
+| Observability  | Azure Monitor, App Insights   | Metrics, logs, performance insights               |
 
 ---
 
