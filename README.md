@@ -45,7 +45,7 @@ Security is applied **before any deployment**.
 ## 🏗 Architecture
 
 **End-to-End Flow:**  
-`Local Dev → PowerShell → GitHub → GitHub Actions → Security Gates → OIDC → Terraform → Dev → Staging → Blue-Green → Azure → Users`
+`Dev → GitHub → DevSecOps Pipeline → Security Gates → Terraform → Azure → Users`
 
 ### Architecture Diagram
 ![Architecture Diagram](./assets/dsops.gif)
