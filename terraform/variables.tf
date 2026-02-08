@@ -36,6 +36,18 @@ variable "storage_account_name" {
   type        = string
   default     = "globalsendzip"
 }
+variable "application_insight_name" {
+  type = string
+  description = "Name of the Application Insights resource"
+  default = "globalsend-application-insights"
+  
+}
+variable "log-analytics_workspace_name" {
+  type = string
+  description = "Name of the Log Analytics workspace"
+  default = "globalsend-log-analytics-workspace"
+}
+
 
 # Optional: Azure subscription ID (commented out)
 # variable "subscription_id" {

@@ -8,3 +8,9 @@ output "webapp_url" {
   value       = "https://${azurerm_linux_web_app.globalsend_app_service.default_hostname}"
   description = "The URL of the deployed Web App"
 }
+output "app_service_id" {
+  value       = azurerm_linux_web_app.globalsend_app_service.id
+  description = "The ID of the deployed App Service"
+  
+}
+

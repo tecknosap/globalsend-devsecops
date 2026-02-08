@@ -27,3 +27,13 @@ variable "zip_blob_url" {
   description = "URL of the ZIP file stored in the storage account."
   type        = string
 }
+
+variable "app_insights_connection_string" {
+  type = string
+}
+variable "app_insights_instrumentation_key" {
+  type = string
+}
+
+
+
