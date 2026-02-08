@@ -17,6 +17,7 @@ GlobalSend is a money transfer web application deployed across multiple Azure en
 ---
 
 ## 🏗 Architecture
+
 **End-to-End Flow:**  
 Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users
 
