@@ -1,121 +1,103 @@
-# 🔐 GlobalSend DevSecOps Pipeline
+# 🌐 GlobalSend DevOps & DevSecOps Pipeline
 
-
-Project 2 builds directly on **Project 1: GlobalSend DevOps Pipeline**, extending the multi-environment delivery workflow with **full DevSecOps enforcement**.
-
-Where Project 1 focused on automation, consistency, and zero-downtime deployments, Project 2 adds **security gates, and compliance checks** that run automatically on every pull request.
-
-**Goal:** Only secure, compliant, and policy-approved code is allowed to deploy.
+**Automated Multi-Environment Deployment | Terraform, Azure App Service, GitHub Actions**
 
 ---
 
 ## 🚀 Overview
-This security-first CI/CD pipeline validates code, dependencies, secrets, and infrastructure before deployment. All checks must pass before merging, ensuring a secure and reliable delivery process.
+GlobalSend is a money transfer web application deployed across multiple Azure environments using Terraform and GitHub Actions. The pipeline implements a **Blue-Green deployment strategy** for zero-downtime production releases.
 
 **Key Outcomes:**
-
-- Enforced SAST, SCA, secrets, and IaC scanning  
-- Predictable, reproducible multi-environment deployments via Terraform  
-- Zero-downtime production releases with Blue-Green deployment  
-- Passwordless authentication via GitHub OIDC → Azure  
-- Branch protections and required checks for full DevSecOps enforcement  
-
----
-
-## 🛡 Security Architecture
-Security is applied **before any deployment**.
-
-### Security Gates (Pull Request Stage)
-
-| Category            | Tools                     | Purpose                          |
-|---------------------|---------------------------|----------------------------------|
-| SAST                | CodeQL, Semgrep           | Block insecure code patterns     |
-| SCA                 | Trivy, Dependabot         | Detect vulnerable dependencies   |
-| Secrets             | GitLeaks                  | Prevent credential leakage       |
-| IaC Security        | Checkov, TFSec            | Enforce Terraform compliance     |
-
-
-> **No merge unless all scans pass.**
+- Predictable, secure, and scalable multi-environment deployment  
+- Developer-first automation via PowerShell + GitHub Actions  
+- Terraform Infrastructure as Code for reproducible environments  
+- Zero-downtime releases with Blue-Green production deployment  
+- **Pipeline-enforced DevSecOps security checks**
 
 ---
 
 ## 🏗 Architecture
-
 **End-to-End Flow:**  
-`Dev → GitHub → DevSecOps Pipeline → Security Gates → Terraform → Azure → Users`
+Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform → Dev → Staging → Azure → Users
 
-### Architecture Diagram
-![Architecture Diagram](./assets/dsops.gif)
+**Architecture Diagram**  
+*(Insert diagram here)*
 
 ---
 
 ## ⚡ Key Components
 
-| Component           | Technology / Service                | Purpose                                           |
-|--------------------|-------------------------------------|---------------------------------------------------|
-| Frontend App       | HTML5, CSS3, JS                     | Money transfer UI with live calculator            |
-| Infrastructure     | Terraform                           | Azure resource provisioning                       |
-| Hosting            | Azure App Service                   | Web application hosting                           |
-| Storage            | Azure Storage Account               | ZIP package deployment + Terraform backend        |
-| CI/CD              | GitHub Actions                      | Automated, security-gated pipeline                |
-| Authentication     | GitHub OIDC, Service Principals     | Passwordless dev auth, secure staging/prod auth   |
-| Deployment Strategy| Blue-Green                          | Zero-downtime production releases                 |
-| Automation         | PowerShell                          | Validation, branch promotion, deployment          |
-| Security Scanning  | CodeQL, Semgrep, Trivy, Dependabot, GitLeaks, Checkov, TFSec, Azure Policy | SAST, SCA, secrets, IaC compliance, policy enforcement |
-| Observability  | Azure Monitor, App Insights   | Metrics, logs, performance insights               |
+| Component               | Technology                        | Purpose                                     |
+|-------------------------|----------------------------------|---------------------------------------------|
+| Frontend Application    | HTML5, CSS3, JavaScript          | Money transfer interface with live calculator |
+| Infrastructure          | Terraform                        | Azure resource provisioning                 |
+| Hosting                 | Azure App Service                | Web application hosting                     |
+| Storage                 | Azure Storage Account            | ZIP package deployment                      |
+| CI/CD                   | GitHub Actions                   | Automated, environment-aware pipeline      |
+| Deployment Strategy     | Blue-Green                        | Zero-downtime production releases           |
+| Automation              | PowerShell                        | Local validation, branch promotion, deployment |
 
 ---
 
 ## 🔧 Multi-Environment Strategy
 
-| Environment | Branch     | Deployment Trigger          |
-|-------------|------------|-----------------------------|
-| Development | `dev`      | Push to dev branch          |
-| Staging     | `staging`  | Merge dev → staging         |
-| Production  | `main`     | Blue-Green deployment       |
+| Environment   | Branch    | Deployment Trigger        |
+|---------------|-----------|---------------------------|
+| Development   | dev       | Push to dev branch       |
+| Staging       | staging   | Merge dev → staging      |
+| Production    | main      | Blue-Green deployment    |
 
-**Pipeline Features:**
-
+**Pipeline Features:**  
 - Branch-based environment detection  
-- OIDC authentication for development  
-- Service Principal authentication for staging & production  
+- OIDC authentication for dev  
+- Service Principal authentication for staging/prod  
 - Automated Terraform plan & apply  
-- Smoke tests + Blue-Green swap for production  
-- Full DevSecOps security gates on every PR  
+- Smoke tests and Blue-Green swap for production  
+- **Automated DevSecOps security gates enforcing compliance**
 
 ---
 
 ## 🗂 Project Structure
 
-| Folder | Purpose |
-|--------|---------|
-| /app | Frontend code (HTML, CSS, JS) |
-| /assets | Images and icons |
-| /scripts | PowerShell automation & deployment |
-| /terraform | Infrastructure as Code & modules |
-| /.github/workflows | CI/CD pipeline YAMLs |
-| README.md | Project overview |
+| Folder                     | Purpose                                          |
+|-----------------------------|--------------------------------------------------|
+| /app                        | Frontend code (HTML, CSS, JS)                   |
+| /assets                     | Images and icons                                |
+| /scripts                    | PowerShell automation & deployment              |
+| /terraform                  | Infrastructure as Code & modules                |
+| /.github/workflows          | CI/CD pipeline YAMLs with DevSecOps checks      |
+| README.md                   | Project overview                                |
 
 ---
 
-## 🛡 Security & Best Practices
+## 🛡 Security & DevSecOps Controls
 
-- **OIDC Authentication:** Passwordless Azure login for development  
-- **Service Principals:** Secure credentials for staging & production  
-- **Environment Isolation:** Separate Azure subscriptions per environment  
-- **IaC Security:** Checkov + TFSec scanning on every PR  
-- **Branch Protections:** Required checks enforce DevSecOps  
-- **Zero Static Credentials:** No secrets stored in GitHub  
-- **Blue-Green:** Safe, reversible production deployments  
+GlobalSend enforces **security at every stage of the CI/CD pipeline**, making DevSecOps an integral part of deployments. Security checks are automated, and deployments are **blocked until all checks pass**.
+
+**1. CI/CD Security Automation:**  
+- **Static Application Security Testing (SAST):** CodeQL scans application code for vulnerabilities.  
+- **Software Composition Analysis (SCA):** Trivy and Dependabot check for insecure dependencies.  
+- **Secret Detection:** GitLeaks identifies hardcoded secrets before merges.  
+- **Infrastructure-as-Code Policy Enforcement:** Checkov and Azure Policy validate Terraform templates.
+
+**2. Deployment Gates:**  
+- Production deployments are **blocked if any security checks fail**.  
+- Blue-Green deployment ensures zero-downtime while enforcing compliance.
+
+**3. Identity & Access Security:**  
+- **OIDC Authentication:** Passwordless Azure login for development environments.  
+- **Service Principals:** Secure credentials for staging and production.  
+- **Environment Isolation:** Separate Azure subscriptions per environment.  
+- **Network Protections:** Azure App Service built-in controls safeguard web traffic.
+
+> **Takeaway:** Security is baked into every stage of the pipeline — deployments cannot proceed unless automated checks pass.
 
 ---
 
 ## 📬 Contact
-For questions about this DevSecOps pipeline or cloud architecture best practices, reach out anytime.
-
-*Last Updated: February 2026 | GlobalSend Money Transfer Application*
+For questions about this DevOps/DevSecOps pipeline or cloud architecture best practices, feel free to reach out.
 
 ---
 
-## 📜 License
-MIT License
+**Last Updated:** February 2026 | GlobalSend Money Transfer Application  
+**License:** MIT License
