@@ -23,7 +23,7 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 
 
 ### Architecture Diagram
-![Architecture Diagram](./assets/dsops.gif)
+![Architecture Diagram](./assets/dsops.gif) 
 
 ---
 
