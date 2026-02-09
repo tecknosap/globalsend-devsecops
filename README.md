@@ -102,4 +102,5 @@ For questions about this DevOps/DevSecOps pipeline or cloud architecture best pr
 ---
 
 **Last Updated:** February 2026 | GlobalSend Money Transfer Application  
+
 **License:** MIT License
