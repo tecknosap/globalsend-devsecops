@@ -1,3 +1,9 @@
+# ---------------------------
+# Application Insights
+# ---------------------------
+# This resource defines Application Insights for the application.
+# It is used to collect telemetry, logs, and performance metrics.
+
 resource "azurerm_application_insights" "this" {
   name                = var.application_insight_name
   location            = var.location
