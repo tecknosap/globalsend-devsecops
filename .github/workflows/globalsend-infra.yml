@@ -6,7 +6,7 @@ on:
       - main
       - staging
       - dev
-  workflow_dispatch: ##
+  workflow_dispatch: ####
 
 permissions:
   id-token: write
