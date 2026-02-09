@@ -29,7 +29,7 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 
 ## ⚡ Key Components
 
-| Component               | Technology                        | Purpose                                     |
+|Component                |Technology                        |Purpose                                     |
 |-------------------------|----------------------------------|---------------------------------------------|
 | Frontend Application    | HTML5, CSS3, JavaScript          | Money transfer interface with live calculator |
 | Infrastructure          | Terraform                        | Azure resource provisioning                 |
@@ -61,7 +61,7 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 
 ## 🗂 Project Structure
 
-| Folder                     | Purpose                                          |
+| Folder                      | Purpose                                          |
 |-----------------------------|--------------------------------------------------|
 | /app                        | Frontend code (HTML, CSS, JS)                   |
 | /assets                     | Images and icons                                |
