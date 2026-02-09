@@ -11,3 +11,7 @@ resource "azurerm_application_insights" "this" {
   application_type    = "web"
   workspace_id        = var.workspace_id
 }
+
+
+
+

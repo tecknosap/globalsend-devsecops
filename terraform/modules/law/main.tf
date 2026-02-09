@@ -55,4 +55,5 @@ resource "azurerm_monitor_diagnostic_setting" "storage_blob_diagnostics" {
     category = "Transaction"
     enabled  = true
   }
+  
 }
