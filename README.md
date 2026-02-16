@@ -26,6 +26,12 @@ Local Dev → PowerShell → GitHub → GitHub Actions → OIDC → Terraform �
 ![Architecture Diagram](./assets/dsops.gif) 
 
 ---
+### Our Website
+
+
+![Our website](./assets/globalsend-site.png)
+
+---
 
 ## ⚡ Key Components
 
@@ -92,7 +98,7 @@ GlobalSend enforces **security at every stage of the CI/CD pipeline**, making De
 - **Environment Isolation:** Separate Azure subscriptions per environment.  
 - **Network Protections:** Azure App Service built-in controls safeguard web traffic.
 
-> **Takeaway:** Security is baked into every stage of the pipeline — deployments cannot proceed unless automated checks pass.
+> **Takeaway:** Security is baked into every stage of the pipeline, deployments cannot proceed unless automated checks pass.
 
 ---
 
